@@ -12,13 +12,17 @@ public class ImageDAO {
 
     public static void main(String[] args)  {
    try {
-       Image image = ImageIO.read(new URL("https://drive.google.com/file/d/1CnrRrZk_IVjW5iEscmNXvA5KI5rhbQLq/view?usp=sharing"))
+       Image image = ImageIO.read(new URL("https://static-cse.canva.com/blob/195615/paul-skorupskas-7KLa-xLbSXA-unsplash-2.jpg"));
        System.out.println(image);
+       Graphics graphics = image.getGraphics();
+       System.out.println(graphics);
    } catch (IOException ex){
        ex.printStackTrace();
    }
     }
-
-  Вывести картинку на экран
+    public static void showImage(Image image){
+        Graphics graphics = image.getGraphics();
+        System.out.println(graphics);
+    }
 
 }
