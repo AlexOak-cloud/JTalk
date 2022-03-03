@@ -14,14 +14,15 @@ import java.util.List;
 public class User implements UserDetailsService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private long id;
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "second_name")
+    @Column(name = "second_name", nullable = false)
     private String secondName;
     @Column(name = "age")
     private int age;
