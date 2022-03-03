@@ -1,17 +1,18 @@
 package app.entity;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "usr")
-public class User implements UserDetailsService {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
@@ -26,16 +27,41 @@ public class User implements UserDetailsService {
     private String secondName;
     @Column(name = "age")
     private int age;
-    @OneToOne
-    @JoinColumn(name = "main_image_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+    @Transient
     private Image mainImage;
+    @Transient
     private List<Video> videoList;
+    @Transient
     private List<Music> musicList;
+    @Transient
     private List<Image> images;
+    @Transient
     private List<User> friends;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
