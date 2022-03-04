@@ -10,7 +10,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public ModelAndView loginGet(){
-        return new ModelAndView("login.html");
+        return new ModelAndView("/view/login.html");
     }
 
 

@@ -23,9 +23,6 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -51,15 +48,16 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
             return false;
         }
         Set<Role> roles = new HashSet<>();
         final Role roleById = roleRepository.getById(1L);
+        user.setPassword(encoder.encode(user.getPassword()));
         roles.add(roleById);
         user.setRoles(roles);
-        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
     }
