@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.image.BandCombineOp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -48,7 +52,6 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
             return false;

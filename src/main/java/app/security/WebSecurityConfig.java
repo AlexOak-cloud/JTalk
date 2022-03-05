@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
     UserService userService;
 
     @Override
@@ -32,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/user/main")
+                .defaultSuccessUrl("/hello")
                 .permitAll()
                 .and()
                 .logout()
@@ -44,10 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         auth.userDetailsService(userService).passwordEncoder(encoder);
     }
-
-
-
 }
