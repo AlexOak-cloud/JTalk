@@ -4,6 +4,7 @@ package app.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,4 +17,6 @@ public class Image {
     private String name;
     @Column(name = "address")
     private String address;
+    @Column(name = "date_time")
+    private LocalDateTime dateTime;
 }

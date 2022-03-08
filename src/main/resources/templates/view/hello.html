@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h1>HELLO !!!</h1>
+
+<img src ="https://res.cloudinary.com/alexoak-cloud/image/upload/v1646734240/sourse/qwe_qmlx2h.jpg">
+</br>
+<audio controls>
+    <source src="https://res.cloudinary.com/alexoak-cloud/video/upload/v1646763581/sourse/okean_el_zi_-_ne_tvoya_viyna_muzati.net_bnejjd.mp3">
+</audio>
+</br>
+<video controls>
+    <source src="https://res.cloudinary.com/alexoak-cloud/video/upload/v1646764566/sourse/videoplayback_twxpse.mp4">
+</video>
+
+<from th:action="https://cloudinary.com/console/c-11b7506e0f9d8d0b5c49cbce6e34e3/media_library/folders/bfb480d1ed8925430613fc4060c7ea07d0?sortField=uploadedAt" th:method="post" >
+       <input type="file">
+    <input type="submit">
+
+</from>
 </body>
 </html>
