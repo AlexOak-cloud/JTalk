@@ -16,8 +16,7 @@ public class UserController {
     @GetMapping("/user/main")
     public ModelAndView userMainGet(){
         ModelAndView mav = new ModelAndView("/view/user/main.html");
-        User authUser = userService.getAuthUser();
-        mav.addObject("user",authUser);
+        mav.addObject("user",userService.getAuthUser());
         return mav;
     }
 
