@@ -24,4 +24,7 @@ public class Image {
     private String address;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
+    @Transient
+    private User user;
+
 }

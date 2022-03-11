@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RepositoryCore<T> {
 
-    void save(T t);
+    void save(File file);
 
     T getById(long id);
 

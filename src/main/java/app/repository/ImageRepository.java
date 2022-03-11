@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.io.File;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,19 +22,21 @@ public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCo
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageService imageService;
+
 
     @Autowired
     private DataSource dataSource;
 
     @Override
-    public void save(Image image) {
-        FileUtil fu = new FileUtil();
-        try(PreparedStatement ps = dataSource.getConnection().prepareStatement(SQLQuery.saveImage)){
-            File rtnFile = fu.generateFile(userService.getAuthUser(),image);
-            ps.setString(1,image.getName());
-            ps.setString(2,rtnFile.getPath());
-            ps.setString(3,LocalDateTime.now().toString());
-            ps.execute();
+    public void save(File file) {
+        try(Statement statement = dataSource.getConnection().createStatement()){
+            File rtnFile = imageService.generateFile(userService.getAuthUser(),file);
+            statement.executeUpdate(String.format(SQLQuery.saveImage,
+                    rtnFile.getName(),
+                    rtnFile.getPath(),
+                    LocalDateTime.now()));
         }catch (SQLException ex){
             ex.printStackTrace();
         }
