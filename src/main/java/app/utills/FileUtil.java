@@ -4,9 +4,9 @@ import app.entity.*;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 
 public class FileUtil {
 
@@ -20,36 +20,32 @@ public class FileUtil {
         return new FileUtil();
     }
 
-    public String generatePath(File file){
+    public String generatePathForImages(){
         User authUser = userService.getAuthUser();
-        return PATH + authUser.getName() + "/" + authUser.getId() + "/image/" + file.getName();
+        return PATH + authUser.getName() + "/" + authUser.getId() + "/image/";
     }
 
-
-    public File generateFile(File file){
-        User user = userService.getAuthUser();
-        File rtnFile = new File(PATH + user.getName() + "/" + user.getId() + "/image/" + file.getName());
-        try {
-            if (!rtnFile.exists()) {
-                boolean newFile = rtnFile.createNewFile();
-                System.out.println(newFile);
-            }
-            return rtnFile;
-        }catch (IOException exception){
-            exception.printStackTrace();
-            System.out.println(file.getPath());
-            return new File("Path in error-file. Later Fixed");
-        }
-
+    public boolean checkExtensionForImage(MultipartFile file){
+        return !getFileExtension(file).equals("jpeg") | !getFileExtension(file).equals("jpg");
     }
-    public File generateFile(User user, Music music){
-        return new File(PATH + user.getName() + "/" + user.getId() + "/music/");
+    public String generatePathForMusic(){
+        User authUser = userService.getAuthUser();
+        return PATH + authUser.getName() + "/" + authUser.getId() + "/music/";
     }
 
-    public File generateFile(User user, Video video){
-        return new File(PATH + user.getName() + "/" + user.getId() + "/video/");
+    public boolean checkExtensionForMusic(MultipartFile file){
+        return !getFileExtension(file).equals("mp3") ;
     }
-    public File generateFile(User user, Post post){
-        return new File(PATH + user.getName() + "/" + user.getId() + "/post/");
+    public String generatePathForVideo(){
+        User authUser = userService.getAuthUser();
+        return PATH + authUser.getName() + "/" + authUser.getId() + "/video/";
+    }
+
+    public boolean checkExtensionForVideo(MultipartFile file){
+        return !getFileExtension(file).equals("mp4");
+    }
+
+    public String getFileExtension(MultipartFile file){
+        return file.getName().substring(file.getName().lastIndexOf(".") + 1);
     }
 }

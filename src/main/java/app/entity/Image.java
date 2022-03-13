@@ -24,7 +24,7 @@ public class Image {
     private String address;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
-    @Transient
+    Связи таблиц в Hibernate
     private User user;
 
 }
