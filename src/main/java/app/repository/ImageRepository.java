@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
@@ -19,28 +22,24 @@ import java.util.List;
 @Repository
 public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCore <Image>{
 
+    public static final String PATH = "/home/alex_oak/IT/IdeaProjects/source/";
+
+
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ImageService imageService;
-
-
-    @Autowired
-    private DataSource dataSource;
-
     @Override
     public void save(File file) {
-        try(Statement statement = dataSource.getConnection().createStatement()){
-            File rtnFile = imageService.generateFile(userService.getAuthUser(),file);
-            statement.executeUpdate(String.format(SQLQuery.saveImage,
-                    rtnFile.getName(),
-                    rtnFile.getPath(),
-                    LocalDateTime.now()));
-        }catch (SQLException ex){
+        FileUtil fileUtil = new FileUtil();
+        try (FileOutputStream fos = new FileOutputStream(
+                fileUtil.generateFile(
+                         file))) {
+            Files.copy(Paths.get(file.getPath()), fos);
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+
 
     @Override
     public Image getById(long id) {
@@ -59,11 +58,9 @@ public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCo
 
     @Override
     public void deleteById(long id) {
-
     }
 
     @Override
     public void deleteById(int id) {
-
     }
 }

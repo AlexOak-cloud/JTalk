@@ -2,6 +2,7 @@ package app.services;
 
 import app.entity.Image;
 import app.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class ImageService {
       image.setName(file.getName());
       return image;
     }
+
 
     public File generateFile(User user, File file){
         File rtnFile = new File(PATH + user.getName() + "/" + user.getId() + "/image/" + file.getName());
