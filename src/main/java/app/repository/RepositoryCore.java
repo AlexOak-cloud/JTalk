@@ -14,7 +14,8 @@ public interface RepositoryCore<T> {
 
     T getById(int id);
 
-    List<T> getAllByUser(User user);
+    /** Returning List<PATH> for HTML <img src=PATH></img> -> */
+    List<String> getAllByUser(User user);
 
     void deleteById(long id);
 

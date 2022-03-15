@@ -24,7 +24,10 @@ public class Image {
     private String address;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
-    Связи таблиц в Hibernate
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
+    @Transient
+    private byte[] bytes;
 
 }

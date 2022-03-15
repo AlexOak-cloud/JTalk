@@ -11,6 +11,7 @@ import java.io.File;
 public class FileUtil {
 
     public static final String PATH = "/home/alex_oak/IT/IdeaProjects/source/";
+    public static final String IMAGE = "/image";
 
     @Autowired
     private UserService userService;
@@ -18,6 +19,11 @@ public class FileUtil {
     @Bean
     public FileUtil getFileUtil(){
         return new FileUtil();
+    }
+
+    public String generatePathForUser(User user){
+        return PATH + user.getName() + "/" + user.getId();
+
     }
 
     public String generatePathForImages(){

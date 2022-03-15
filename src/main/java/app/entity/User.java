@@ -18,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private long id;
@@ -58,7 +58,26 @@ public class User implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         return true;
-    }
+    }@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return password;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+		
+	}
+	public void setUserName(String username) {
+		this.username = username;
+	}
+
 
     @Override
     public boolean isCredentialsNonExpired() {

@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.sql.DataSource;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCore <Image>{
@@ -41,7 +43,8 @@ public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCo
                         SQLQuery.saveImage,
                         file.getOriginalFilename(),
                         savableFile + "/" + file.getOriginalFilename(),
-                        LocalDateTime.now()));
+                        LocalDateTime.now(),
+                        userService.getAuthUser().getId()));
                 byte[] bytes = file.getBytes();
                 bos.write(bytes);
                 bos.flush();
@@ -50,13 +53,26 @@ public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCo
                 ex.printStackTrace();
             }
         }else {
-            System.out.println("error in ImageRepository.save method");
+            System.out.println("error in ImageRepository.save()");
+        }
+    }
+
+    public byte[] getOne(File file){
+        try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+            BufferedImage bi = ImageIO.read(file);
+            ImageIO.write(bi, "jpeg", baos);
+            baos.flush();
+            byte[] bytes = baos.toByteArray();
+            return bytes;
+        }catch (IOException ex){
+            ex.printStackTrace();
+            return null;
         }
     }
 
     @Override
     public Image getById(long id) {
-
+        return null;
     }
 
     @Override
@@ -65,8 +81,8 @@ public class ImageRepository <T extends Image> implements SQLQuery, RepositoryCo
     }
 
     @Override
-    public List<Image> getAllByUser(User user) {
-        return null;
+    public List<String> getAllByUser(User user) {
+       return null;
     }
 
     @Override
