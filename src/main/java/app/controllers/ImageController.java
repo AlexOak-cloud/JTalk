@@ -1,25 +1,20 @@
 package app.controllers;
 
-import app.entity.Image;
-import app.repository.ImageRepository;
-import app.services.UserService;
-import app.utills.FileUtil;
+import app.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 @Controller
 public class ImageController {
 
     @Autowired
-    private ImageRepository<Image> imageRepository;
+    private ImageService imageService;
 
     @GetMapping("/my_images")
     public ModelAndView imageSet() {
@@ -35,22 +30,7 @@ public class ImageController {
     @PostMapping("/new_image")
     public @ResponseBody
     ModelAndView newImagePost(@RequestParam("file") MultipartFile file) {
-        imageRepository.save(file);
+        imageService.save(file);
         return new ModelAndView("redirect:/user/main");
     }
-
-
-    //        try {
-//            File rtnFile = new File(fileUtil.generatePathForImages());
-//            rtnFile.mkdirs();
-//            byte[] bytes = file.getBytes();
-//            BufferedOutputStream bos =
-//                    new BufferedOutputStream(new FileOutputStream(rtnFile + "/"+ file.getOriginalFilename()));
-//            bos.write(bytes);
-//            bos.flush();
-//            bos.close();
-//        }catch (IOException ex){
-//            ex.printStackTrace();
-//        }
-
 }

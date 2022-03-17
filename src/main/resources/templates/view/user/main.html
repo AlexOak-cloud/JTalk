@@ -8,11 +8,15 @@
 
 <p th:text="${user.getName + ' ' + user.getSecondName}"></p>
 <p th:text="${user.getAge}"></p>
-
-<!--<tr th:each="image : ${listImage}">-->
-<!--    <img src="${image}">-->
-<!--</tr>-->
-<img src="/source/asd/3/image/as.jpeg" alt = "asd">
-<img src="/home/alex_oak/IT/IdeaProjects/JTalk/src/main/resources/qwe.jpg" alt = "asd">
+<img th:src="@{/src/} + ${test}" th:alt = "${test}">
+</br>
+<p th:text="${path}"></p>
+</br>
+<p>Пути</p>
+<tr th:each="image : ${allImages}">
+    <img th:src="@{/src/} + ${image}" alt="${image}" width="200" height="200">
+    </br>
+</tr>
+<a th:href="@{/new_image}">Загрузить фото</a>
 </body>
 </html>

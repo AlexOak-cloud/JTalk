@@ -12,16 +12,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("/views/login/login.html");
+        registry.addViewController("/").setViewName("/views/login/login.html");
     }
 
 
-    @Value("${upload.path")
+    @Value("${upload.path}")
     private String path;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/source/**").addResourceLocations("file://" + path + "/");
+        registry.addResourceHandler("/src/**").addResourceLocations("file://" + path + "/");
     }
-
 }

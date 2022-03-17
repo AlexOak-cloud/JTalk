@@ -14,9 +14,6 @@ public class FileUtil {
     @Value("${upload.path}")
     private String path;
 
-    public static final String PATH = "/home/alex_oak/IT/IdeaProjects/source/";
-    public static final String IMAGE = "/image";
-
     @Autowired
     private UserService userService;
 
@@ -25,31 +22,37 @@ public class FileUtil {
         return new FileUtil();
     }
 
-    public String generatePathForUser(User user){
-        return PATH + user.getName() + "/" + user.getId();
+    public String generateUploadPath(User user){
+        return path + "/" + user.getName() + "/" + user.getId() + "/";
+    }
 
+    public String generateLocalPath(User user){
+        return  user.getName() + "/" + user.getId() + "/";
     }
 
     public String generatePathForImages(){
         User authUser = userService.getAuthUser();
-        return PATH + authUser.getName() + "/" + authUser.getId() + "/image/";
+        return "/" + authUser.getName() + "/" + authUser.getId() + "/image/";
+    }
+
+    public String generatePathForMusic(){
+        User authUser = userService.getAuthUser();
+        return "/" + authUser.getName() + "/" + authUser.getId() + "/music/";
+    }
+
+    public String generatePathForVideo(){
+        User authUser = userService.getAuthUser();
+        return "/" + authUser.getName() + "/" + authUser.getId() + "/video/";
     }
 
     public boolean checkExtensionForImage(MultipartFile file){
         return !getFileExtension(file).equals("jpeg") | !getFileExtension(file).equals("jpg");
     }
-    public String generatePathForMusic(){
-        User authUser = userService.getAuthUser();
-        return PATH + authUser.getName() + "/" + authUser.getId() + "/music/";
-    }
 
     public boolean checkExtensionForMusic(MultipartFile file){
         return !getFileExtension(file).equals("mp3") ;
     }
-    public String generatePathForVideo(){
-        User authUser = userService.getAuthUser();
-        return PATH + authUser.getName() + "/" + authUser.getId() + "/video/";
-    }
+
 
     public boolean checkExtensionForVideo(MultipartFile file){
         return !getFileExtension(file).equals("mp4");

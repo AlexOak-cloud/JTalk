@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public ModelAndView loginGet(){
         return new ModelAndView("/view/login.html");
     }
