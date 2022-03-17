@@ -3,12 +3,16 @@ package app.utills;
 import app.entity.*;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
 public class FileUtil {
+
+    @Value("${upload.path}")
+    private String path;
 
     public static final String PATH = "/home/alex_oak/IT/IdeaProjects/source/";
     public static final String IMAGE = "/image";
