@@ -36,12 +36,12 @@ public class RepositoryCore implements SQLQuery {
     @Autowired
     private UserService userService;
 
-    public void save(String localMkdir, MultipartFile file){
+    public void save(String localMkdir, MultipartFile file,String SQLQuery){
             File savableFile = new File(uploadPath + "/" + localMkdir);
             if(!savableFile.exists()) {
                 savableFile.mkdirs();
             }
-            String savableFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            String savableFileName = UUID.randomUUID() + "_" + fileUtil.deleteIllegalSymbol(file.getOriginalFilename());
             String savablePath = localMkdir + savableFileName;
             try (Statement statement = dataSource.getConnection().createStatement();
                  BufferedOutputStream bos = new BufferedOutputStream(
@@ -49,7 +49,7 @@ public class RepositoryCore implements SQLQuery {
                                  uploadPath  + "/" + savablePath)
                  )) {
                 statement.executeUpdate(String.format(
-                        SQLQuery.saveImage,
+                        SQLQuery,
                         savableFileName,
                         savablePath,
                         LocalDateTime.now(),

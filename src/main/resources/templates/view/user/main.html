@@ -8,7 +8,7 @@
 
 <p th:text="${user.getName + ' ' + user.getSecondName}"></p>
 <p th:text="${user.getAge}"></p>
-<img th:src="@{/src/} + ${test}" th:alt = "${test}">
+<p th:text="${test}">internal error</p>
 </br>
 <p th:text="${path}"></p>
 </br>
@@ -17,6 +17,19 @@
     <img th:src="@{/src/} + ${image}" alt="${image}" width="200" height="200">
     </br>
 </tr>
-<a th:href="@{/new_image}">Загрузить фото</a>
+<tr th:each="song : ${allSongs}">
+    <audio th:src="@{/src/} + ${song}" controls></audio>
+    </br>
+</tr>
+<tr th:each="video : ${allVideos}">
+    <video th:src="@{/src/} + ${video}" controls></video>
+    </br>
+</tr>
+<a th:href="@{/image/new}">Загрузить фото</a>
+</br>
+<a th:href="@{/music/new}">Загрузить песню</a>
+</br>
+<a th:href="@{/video/new}">Загрузить видео</a>
+</br>
 </body>
 </html>

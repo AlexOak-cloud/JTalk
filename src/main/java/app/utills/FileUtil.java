@@ -61,4 +61,14 @@ public class FileUtil {
     public String getFileExtension(MultipartFile file){
         return file.getName().substring(file.getName().lastIndexOf(".") + 1);
     }
+
+    public String deleteIllegalSymbol(String forFix){
+        StringBuilder sb = new StringBuilder(forFix);
+        for (int i = 0; i <sb.length() ; i++) {
+            if(sb.charAt(i) == '\''){
+                sb.deleteCharAt(i);
+         }
+        }
+        return sb.toString();
+    }
 }

@@ -27,7 +27,4 @@ public class Image {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @Transient
-    private byte[] bytes;
-
 }

@@ -3,10 +3,7 @@ package app.controllers;
 import app.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,20 +14,25 @@ public class ImageController {
     private ImageService imageService;
 
     @GetMapping("/my_images")
-    public ModelAndView imageSet() {
+    public ModelAndView myImage() {
         return new ModelAndView("/view/image/main.html");
     }
 
-    @GetMapping("/new_image")
+    @GetMapping("/image/new")
     public @ResponseBody
-    ModelAndView newImageGet() {
-        return new ModelAndView("/view/exemple.html");
+    ModelAndView uploadImageGET() {
+        return new ModelAndView("/view/image/new.html");
     }
 
-    @PostMapping("/new_image")
+    @PostMapping("/image/new")
     public @ResponseBody
-    ModelAndView newImagePost(@RequestParam("file") MultipartFile file) {
+    ModelAndView uploadImagePOST(@RequestParam("file") MultipartFile file) {
         imageService.save(file);
         return new ModelAndView("redirect:/user/main");
+    }
+
+    @GetMapping("/image/get_by_id/{id}")
+    public ModelAndView getById(@PathVariable("id")int id){
+        return new ModelAndView("/view/image/getById.html");
     }
 }

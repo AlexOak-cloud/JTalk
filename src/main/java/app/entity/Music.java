@@ -18,4 +18,7 @@ public class Music {
     private String address;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
