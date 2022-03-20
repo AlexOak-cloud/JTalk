@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-
 public class FileUtil {
 
     @Value("${upload.path}")
@@ -46,20 +44,24 @@ public class FileUtil {
     }
 
     public boolean checkExtensionForImage(MultipartFile file){
-        return !getFileExtension(file).equals("jpeg") | !getFileExtension(file).equals("jpg");
+        return !getFileExtension(file).equals(".jpeg") | !getFileExtension(file).equals(".jpg");
     }
 
     public boolean checkExtensionForMusic(MultipartFile file){
-        return !getFileExtension(file).equals("mp3") ;
+        return !getFileExtension(file).equals(".mp3") ;
     }
 
 
     public boolean checkExtensionForVideo(MultipartFile file){
-        return !getFileExtension(file).equals("mp4");
+        return !getFileExtension(file).equals(".mp4");
     }
 
     public String getFileExtension(MultipartFile file){
         return file.getName().substring(file.getName().lastIndexOf(".") + 1);
+    }
+
+    public String getFileExtension(String fileName){
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     public String deleteIllegalSymbol(String forFix){

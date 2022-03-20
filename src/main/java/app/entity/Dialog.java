@@ -2,6 +2,8 @@ package app.entity;
 
 import java.util.List;
 
+
+
 public class Dialog {
 
     private User sender;

@@ -1,6 +1,5 @@
 package app.repository;
 
-import app.entity.User;
 import app.services.UserService;
 import app.utills.FileUtil;
 import app.utills.SQLQuery;
@@ -41,7 +40,11 @@ public class RepositoryCore implements SQLQuery {
             if(!savableFile.exists()) {
                 savableFile.mkdirs();
             }
-            String savableFileName = UUID.randomUUID() + "_" + fileUtil.deleteIllegalSymbol(file.getOriginalFilename());
+            String savableFileName =
+                    UUID.randomUUID().toString() +
+                    UUID.randomUUID().toString() +
+                    fileUtil.getFileExtension(Objects.requireNonNull(file.getOriginalFilename()));
+
             String savablePath = localMkdir + savableFileName;
             try (Statement statement = dataSource.getConnection().createStatement();
                  BufferedOutputStream bos = new BufferedOutputStream(

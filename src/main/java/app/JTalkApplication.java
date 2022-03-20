@@ -1,6 +1,5 @@
 package app;
 
-import app.services.VideoService;
 import app.utills.FileUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,4 +41,5 @@ public class JTalkApplication {
     public VideoService videoService(){
         return new VideoService();
     }
+
 }

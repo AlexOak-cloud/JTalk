@@ -4,10 +4,8 @@ import app.entity.User;
 import app.services.ImageService;
 import app.services.MusicService;
 import app.services.UserService;
-import app.services.VideoService;
 import app.utills.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +25,9 @@ public class UserController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private FileUtil fileUtil;
+
     @GetMapping("/user/main")
     public ModelAndView userMainGet(){
         User authUser = userService.getAuthUser();
@@ -37,5 +38,4 @@ public class UserController {
         mav.addObject("allVideos",videoService.getAllByUser(authUser));
         return mav;
     }
-
 }
