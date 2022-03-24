@@ -2,7 +2,7 @@ package app.services;
 
 
 import app.entity.User;
-import app.repository.RepositoryCore;
+import app.repository.RepositoryMediaCore;
 import app.utills.FileUtil;
 import app.utills.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
-public class MusicService extends RepositoryCore {
+public class MusicService extends RepositoryMediaCore {
 
     @Autowired
     private UserService userService;
@@ -20,6 +20,10 @@ public class MusicService extends RepositoryCore {
     @Autowired
     private FileUtil fileUtil;
 
+    @Override
+    public String getById(long id) {
+        return super.getById(id);
+    }
 
     public void save(MultipartFile file) {
         String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser()) + "music/";

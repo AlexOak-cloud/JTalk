@@ -37,8 +37,6 @@ public class User implements UserDetails {
     @Transient
     private Image mainImage;
     @Transient
-    private List<Video> videoList;
-    @Transient
     private List<Music> musicList;
     @Transient
     private List<Image> images;

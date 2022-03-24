@@ -37,9 +37,5 @@ public class JTalkApplication {
         SpringApplication.run(JTalkApplication.class, args);
     }
 
-    @Bean
-    public VideoService videoService(){
-        return new VideoService();
-    }
 
 }

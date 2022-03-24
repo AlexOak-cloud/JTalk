@@ -31,6 +31,17 @@ public class ImageController {
         return new ModelAndView("redirect:/user/main");
     }
 
+    @GetMapping("/image/upload_main")
+    public ModelAndView uploadMainGET(){
+        return new ModelAndView("/view/image/uploadMain.html");
+    }
+
+    @PostMapping("/image/upload_main")
+    public ModelAndView uploadMainPOST(@RequestParam("file")MultipartFile file){
+        imageService.saveMain(file);
+        return new ModelAndView("redirect:/user/main");
+    }
+
     @GetMapping("/image/get_by_id/{id}")
     public ModelAndView getById(@PathVariable("id")int id){
         return new ModelAndView("/view/image/getById.html");

@@ -22,8 +22,6 @@ public class UserController {
     @Autowired
     private MusicService musicService;
 
-    @Autowired
-    private VideoService videoService;
 
     @Autowired
     private FileUtil fileUtil;
@@ -32,10 +30,9 @@ public class UserController {
     public ModelAndView userMainGet(){
         User authUser = userService.getAuthUser();
         ModelAndView mav = new ModelAndView("/view/user/main.html");
-        mav.addObject("user",userService.getAuthUser());
-        mav.addObject("allImages",imageService.getAllByUser(authUser));
-        mav.addObject("allSongs",musicService.getAllByUser(authUser));
-        mav.addObject("allVideos",videoService.getAllByUser(authUser));
+        mav.addObject("user",authUser);
+        mav.addObject("mainImg",imageService.getMainByUser(authUser));
+
         return mav;
     }
 }

@@ -1,37 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Титле</title>
 </head>
 <body>
-<p th:text="${exte}"></p>
+<h4>JTalk</h4>
+<p th:text="${user.getName} + ${user.getSecondName}">error -> getName + getSecondName</p>
+<img th:src="@{/src/} + ${mainImg}" alt="error_file_path">
+</br>
+<a th:href="@{/image/upload_main}">Загрузить новый аватар</a>
+<img th:src="@{/resources/static/in_case/emergenable.jpg}" alt="error">
 
-<p th:text="${user.getName + ' ' + user.getSecondName}"></p>
-<p th:text="${user.getAge}"></p>
-<p th:text="${test}">internal error</p>
-</br>
-<p th:text="${path}"></p>
-</br>
-<p>Пути</p>
-<tr th:each="image : ${allImages}">
-    <img th:src="@{/src/} + ${image}" alt="${image}" width="200" height="200">
-    </br>
-</tr>
-<tr th:each="song : ${allSongs}">
-    <audio th:src="@{/src/} + ${song}" controls></audio>
-    </br>
-</tr>
 
-<tr th:each="video : ${allVideos}">
-    <video th:src="@{/src/} + ${video}" controls></video>
-    </br>
-</tr>
-<a th:href="@{/image/new}">Загрузить фото</a>
-</br>
-<a th:href="@{/music/new}">Загрузить песню</a>
-</br>
-<a th:href="@{/video/new}">Загрузить видео</a>
-</br>
 </body>
 </html>

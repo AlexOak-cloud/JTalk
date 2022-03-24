@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/js/**", "/css/**","/home/**").permitAll()
+                .antMatchers("/js/**", "/css/**", "/home/**").permitAll()
                 .antMatchers("/registration").not().fullyAuthenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
@@ -42,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .logoutSuccessUrl("/");
     }
-
-
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

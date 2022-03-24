@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class RepositoryCore implements SQLQuery {
+public class RepositoryMediaCore implements SQLQuery {
 
     @Autowired
     private FileUtil fileUtil;
@@ -95,7 +95,15 @@ public class RepositoryCore implements SQLQuery {
         }
     }
 
-
+    public boolean deleteFile(String localPath){
+        File file = new File(uploadPath +"/" + localPath);
+        if(file.exists()){
+            file.delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 
