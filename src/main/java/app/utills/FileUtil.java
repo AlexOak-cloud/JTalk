@@ -21,11 +21,11 @@ public class FileUtil {
     }
 
     public String generateUploadPath(User user){
-        return path + "/users/" + user.getName() + "/" + user.getId() + "/";
+        return  path + "/" + user.getName() + "/" + user.getId() + "/";
     }
 
     public String generateLocalPath(User user){
-        return "users/" + user.getName() + "/" + user.getId() + "/";
+        return "/" + user.getName() + "/" + user.getId() + "/";
     }
 
     public String generatePathForImages(){

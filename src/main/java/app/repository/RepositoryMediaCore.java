@@ -74,12 +74,12 @@ public class RepositoryMediaCore implements SQLQuery {
             file.mkdirs();
         }
         for(File tmp : Objects.requireNonNull(file.listFiles())){
-            paths.add(localMkdir +  tmp.getName());
+            paths.add("/src" + localMkdir + tmp.getName());
         }
         return paths;
     }
 
-    /** Returning path for looking file */
+    /** Returning path for searching file -> */
     public String getById(long id){
         String rtn = "File is Empty";
         try(Statement statement = dataSource.getConnection().createStatement()){

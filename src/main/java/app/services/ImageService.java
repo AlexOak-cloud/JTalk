@@ -23,6 +23,9 @@ public class ImageService extends RepositoryMediaCore {
     @Value("${upload.path}")
     private String path;
 
+    @Value("${emerging.jpg}")
+    private String emergingImg;
+
 
     public void save(MultipartFile file) {
         String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser()) + "image/";
@@ -45,9 +48,8 @@ public class ImageService extends RepositoryMediaCore {
 
     public String getMainByUser(User user){
         String localMkdir = fileUtil.generateLocalPath(user) + "main_image/";
-
         if(super.getAllByUser(localMkdir).isEmpty()) {
-            return "in_case/emergenable.jpg";
+            return emergingImg;
         } else {
             return super.getAllByUser(localMkdir).get(0);
         }

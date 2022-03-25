@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Титле</title>
+
+    <style>
+        #JTalk{
+        text-align : center;
+        }
+
+    </style>
+
 </head>
 <body>
-<h4>JTalk</h4>
-<p th:text="${user.getName} + ${user.getSecondName}">error -> getName + getSecondName</p>
-<img th:src="@{/src/} + ${mainImg}" alt="error_file_path">
+<h2 id="JTalk">JTalk</h2>
+<h3 th:text="${user.getName} + ' ' +  ${user.getSecondName}">error{getName getSecondName}</h3>
+<img th:src="${avatar}" alt="error_file_path">
+</br>
+<tr th:each="img : ${images}">
+    <img th:src="${img}" width="30" height="30">
+</tr>
+
+
 </br>
 <a th:href="@{/image/upload_main}">Загрузить новый аватар</a>
-<img th:src="@{/resources/static/in_case/emergenable.jpg}" alt="error">
 
 
 </body>

@@ -10,14 +10,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class MvcConfig implements WebMvcConfigurer {
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("/views/login/login.html");
-    }
 
 
     @Value("${upload.path}")
     private String path;
+
+
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("/views/login/login.html");
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

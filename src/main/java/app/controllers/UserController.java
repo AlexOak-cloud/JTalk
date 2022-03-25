@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+
 @Controller
 public class UserController {
 
@@ -31,8 +33,8 @@ public class UserController {
         User authUser = userService.getAuthUser();
         ModelAndView mav = new ModelAndView("/view/user/main.html");
         mav.addObject("user",authUser);
-        mav.addObject("mainImg",imageService.getMainByUser(authUser));
-
+        mav.addObject("avatar",imageService.getMainByUser(authUser));
+        mav.addObject("images",imageService.getAllByUser(authUser));
         return mav;
     }
 }
