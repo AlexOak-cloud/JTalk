@@ -14,7 +14,6 @@ import org.springframework.util.unit.DataUnit;
 import javax.servlet.MultipartConfigElement;
 
 @Configuration
-@ComponentScan
 @SpringBootApplication
 @EnableJpaRepositories
 public class JTalkApplication {

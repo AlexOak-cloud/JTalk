@@ -16,6 +16,12 @@ public class Message {
     private long id;
     @Column(name = "content")
     private String content;
+    @OneToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+    @OneToOne
+    @JoinColumn(name = "recipient_id")
+    private User recipient;
     @Column(name = "date_time")
     private LocalDateTime dateTime;
     @Column(name = "is_read")

@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>Титле</title>
-
     <style>
-
         #JTalk{
-        text-align : center;
+            text-align : center;
         }
     </style>
-    <script>
-
-    console.log(6);
-    </script>
-
 </head>
 <body>
 <h2 id="JTalk">JTalk</h2>
@@ -29,6 +22,7 @@
 </br>
 <tr th:each="song : ${songs}">
     <audio th:src="${song}" controls> </audio>
+    </br>
 </tr>
 </br>
 <a th:href="@{/music/new}">Загрузить песню</a>
