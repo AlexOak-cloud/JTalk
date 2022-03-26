@@ -35,6 +35,7 @@ public class UserController {
         mav.addObject("user",authUser);
         mav.addObject("avatar",imageService.getMainByUser(authUser));
         mav.addObject("images",imageService.getAllByUser(authUser));
+        mav.addObject("songs",musicService.getAllByUser(authUser));
         return mav;
     }
 }

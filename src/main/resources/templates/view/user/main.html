@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Титле</title>
 
     <style>
+
         #JTalk{
         text-align : center;
         }
-
     </style>
+    <script>
+
+    console.log(6);
+    </script>
 
 </head>
 <body>
@@ -18,13 +22,16 @@
 <img th:src="${avatar}" alt="error_file_path">
 </br>
 <tr th:each="img : ${images}">
-    <img th:src="${img}" width="30" height="30">
+    <img th:src="${img}" width="50" height="50">
 </tr>
-
-
 </br>
 <a th:href="@{/image/upload_main}">Загрузить новый аватар</a>
-
+</br>
+<tr th:each="song : ${songs}">
+    <audio th:src="${song}" controls> </audio>
+</tr>
+</br>
+<a th:href="@{/music/new}">Загрузить песню</a>
 
 </body>
 </html>
