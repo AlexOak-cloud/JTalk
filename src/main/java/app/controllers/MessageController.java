@@ -3,7 +3,7 @@ package app.controllers;
 
 import app.entity.Message;
 import app.entity.User;
-import app.repository.DialogRepository;
+import app.repository.MsgRepository;
 import app.services.UserService;
 import app.utills.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MessageController {
 
     @Autowired
-    private DialogRepository dialogRepository;
+    private MsgRepository dialogRepository;
 
     @Autowired
     private UserService userService;
