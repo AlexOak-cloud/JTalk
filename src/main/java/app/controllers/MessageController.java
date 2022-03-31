@@ -38,11 +38,11 @@ public class MessageController {
         return mav;
     }
 
-    @PostMapping("/message/{id}")
-    public ModelAndView messagePOST(@RequestParam("id")int id, Message message){
-        dialogRepository.save(message,userService.getById(id));
-        return new ModelAndView("redirect:/user/main");
-    }
+//    @PostMapping("/message/{id}")
+//    public ModelAndView messagePOST(@RequestParam("id")int id, Message message){
+//        dialogRepository.save(message,userService.getById(id));
+//        return new ModelAndView("redirect:/user/main");
+//    }
 
 //    @MessageMapping("/change-message")
 //    @SendTo("/topic/activity")

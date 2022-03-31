@@ -1,6 +1,5 @@
 package app.controllers;
 
-
 import app.entity.User;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RegistrationController {
 
-
-
     @Autowired
     private UserService userService;
 
@@ -23,7 +20,7 @@ public class RegistrationController {
     public ModelAndView regisGet(@ModelAttribute("user")User user){
         ModelAndView mav = new ModelAndView("/view/registration.html");
         mav.addObject("user",new User());
-        return mav;
+        return mav; 
     }
 
     @PostMapping("/registration")

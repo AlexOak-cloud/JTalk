@@ -1,19 +1,16 @@
 package app.entity;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
+@Data
 @RequiredArgsConstructor
 @Entity
 @Table(name = "usr")
@@ -42,7 +39,6 @@ public class User implements UserDetails {
     private List<Image> images;
     @Transient
     private List<User> friends;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -56,26 +52,7 @@ public class User implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         return true;
-    }@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return password;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-		
-	}
-	public void setUserName(String username) {
-		this.username = username;
-	}
-
+    }
 
     @Override
     public boolean isCredentialsNonExpired() {
@@ -85,18 +62,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

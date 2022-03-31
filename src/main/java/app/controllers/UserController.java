@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.entity.User;
+import app.repository.MsgRepository;
 import app.services.ImageService;
 import app.services.MusicService;
 import app.services.UserService;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private MusicService musicService;
 
+    @Autowired
+    private MsgRepository msgRepository;
+
 
     @Autowired
     private FileUtil fileUtil;
@@ -36,6 +40,10 @@ public class UserController {
         mav.addObject("avatar",imageService.getMainByUser(authUser));
         mav.addObject("images",imageService.getAllByUser(authUser));
         mav.addObject("songs",musicService.getAllByUser(authUser));
+        File file = new File(
+                "/home/alex_oak/IT/IdeaProjects/source/users/asd/3/123_321.txt");
+        mav.addObject("boolean",file.isFile());
+        mav.addObject("test",msgRepository.test(file));
         return mav;
     }
 }

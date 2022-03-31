@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Role implements GrantedAuthority {
     @Id
     private long id;

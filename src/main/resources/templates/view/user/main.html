@@ -26,6 +26,14 @@
 </tr>
 </br>
 <a th:href="@{/music/new}">Загрузить песню</a>
+</br>
+<p th:text="${boolean}"></p>
+</br>
+<tr th:each="str : ${test}">
+
+    <p th:text="${str}"></p>
+
+</tr>
 
 </body>
 </html>
