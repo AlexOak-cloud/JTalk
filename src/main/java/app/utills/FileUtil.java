@@ -43,6 +43,11 @@ public class FileUtil {
         return "/" + authUser.getName() + "/" + authUser.getId() + "/video/";
     }
 
+    public String generatePathForMessage(){
+        User authUser = userService.getAuthUser();
+        return "/" + authUser.getName() + "/" + authUser.getId() + "/msg/";
+    }
+
     public boolean checkExtensionForImage(MultipartFile file){
         return !getFileExtension(file).equals(".jpeg") | !getFileExtension(file).equals(".jpg");
     }

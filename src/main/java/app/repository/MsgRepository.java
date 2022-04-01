@@ -13,9 +13,12 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +34,8 @@ public class MsgRepository {
     @Autowired
     private UserService userService;
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss.SSS");
+//    example -> 2022-04-01T11:52:03.884
 
     public File generateDialogFile(User sender, User recipient, String localMkdir){
         File file = new File(uploadPath + "/" + localMkdir);
@@ -52,9 +57,9 @@ public class MsgRepository {
     }
 
     public boolean saveMessage(Message msg, File file){
-        String writable = msg.getSender().getId() + "| " +
-                msg.getDateTime() + "| " +
-                msg.isRead() + ": " +
+        String writable = msg.getSender().getId() + "|" +
+                msg.getDateTime() + "~" +
+                msg.isRead() + "*" +
                 msg.getContent() +
                 "\n";
         try(BufferedOutputStream bos
@@ -86,37 +91,65 @@ public class MsgRepository {
         return rtn;
     }
 
-
-
     public Dialog getDialog(File file){
         Dialog dialog = new Dialog();
-        List<Message> msgs = new ArrayList<>();
+        List<Message> msgs = extractMsgs(file);
         List<Integer> usersIdByFileName = getUsersIdByFileName(file);
         User sender = userService.getById(usersIdByFileName.get(0));
         User recipient = userService.getById(usersIdByFileName.get(1));
         dialog.setSender(sender);
         dialog.setRecipient(recipient);
         dialog.setPath(file.getPath());
-
-
-
-
+        dialog.setMsgs(msgs);
+        return dialog;
     }
 
-    public List<Message> extractMsg(File file){
+    public List<Message> extractMsgs(File file){
         List<Message> rtnList = new ArrayList<>();
         try(BufferedReader reader =
                     new BufferedReader(
                             new FileReader(file))){
-            while (reader.readLine() != null){
-                Stream<String> lines = reader.lines();
-                lines.forEach();
-            }
-
-            return rtnList;
+          while(reader.ready()) {
+              String line = reader.readLine();
+              String content = line.substring(line.indexOf("*"), line.length());
+              String senderStr = line.substring(line.indexOf(0), line.indexOf("|"));
+              int senderId = Integer.parseInt(senderStr);
+              User sender = userService.getById(senderId);
+              String isReadStr = line.substring(line.indexOf("~"),line.indexOf("*"));
+              boolean isRead = Boolean.parseBoolean(isReadStr);
+              String dateTimeStr = line.substring(line.indexOf("|"),line.indexOf("~"));
+              LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
+              Message msg = new Message(content,sender, dateTime, isRead);
+              if(msg.getContent() != null) {
+                  rtnList.add(msg);
+              }
+          }
+              return rtnList;
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptyList();
         }
     }
+
+    public void updateMessage(Dialog dialog,Message message,Message newMessage){
+        List<Message> msgs = dialog.getMsgs();
+        for(Message tmp : msgs){
+            if(tmp.equals(message)){
+                deleteMessage(dialog,tmp);
+                tmp.setContent(newMessage.getContent());
+                break;
+            }
+        }
+    }
+
+    public void deleteMessage(Dialog dialog,Message message){
+        List<Message> msgs = dialog.getMsgs();
+        for(Message tmp : msgs){
+            if(tmp.equals(message)){
+                tmp.setContent(null);
+                break;
+            }
+        }
+    }
 }
+

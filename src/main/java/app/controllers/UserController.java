@@ -41,9 +41,10 @@ public class UserController {
         mav.addObject("images",imageService.getAllByUser(authUser));
         mav.addObject("songs",musicService.getAllByUser(authUser));
         File file = new File(
-                "/home/alex_oak/IT/IdeaProjects/source/users/asd/3/123_321.txt");
+                "/home/alex_oak/IT/IdeaProjects/source/users/Sasha/2/msg/2_3.txt"
+        );
         mav.addObject("boolean",file.isFile());
-        mav.addObject("test",msgRepository.test(file));
+        mav.addObject("list",msgRepository.extractMsgs(file));
         return mav;
     }
 }

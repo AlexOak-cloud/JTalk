@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.time.LocalDateTime;
+
 @Controller
 public class MessageController {
 
     @Autowired
-    private MsgRepository dialogRepository;
+    private MsgRepository msgRepository;
 
     @Autowired
     private UserService userService;
@@ -29,24 +32,25 @@ public class MessageController {
     @Autowired
     private FileUtil fileUtil;
 
-    @GetMapping("/message/{id}")
-    public ModelAndView messageGET(@RequestParam("id")int id,
-                                   @ModelAttribute("message")Message message){
-        ModelAndView mav = new ModelAndView("/view/message.html");
-        mav.addObject("recipient",userService.getById(id));
-        mav.addObject("message", new Message());
+    @GetMapping("/msg")
+    public ModelAndView msgGET(@ModelAttribute("msg") Message msg) {
+        ModelAndView mav = new ModelAndView("/view/msg.html");
+        mav.addObject("msg", new Message());
         return mav;
     }
 
-//    @PostMapping("/message/{id}")
-//    public ModelAndView messagePOST(@RequestParam("id")int id, Message message){
-//        dialogRepository.save(message,userService.getById(id));
-//        return new ModelAndView("redirect:/user/main");
-//    }
-
-//    @MessageMapping("/change-message")
-//    @SendTo("/topic/activity")
-//    public Message change(Message message){
-//        return null;
-//    }
+    @PostMapping("/msg")
+    public ModelAndView msgPOST(Message msg){
+        User authUser = userService.getAuthUser();
+        User recipient = userService.getById(3);
+        msg.setSender(authUser);
+        msg.setRecipient(recipient);
+        msg.setRead(false);
+        msg.setDateTime(LocalDateTime.now());
+        File file =
+                msgRepository.generateDialogFile(
+                        authUser, recipient, fileUtil.generatePathForMessage());
+        msgRepository.saveMessage(msg,file);
+        return new ModelAndView("redirect:user/main");
+    }
 }

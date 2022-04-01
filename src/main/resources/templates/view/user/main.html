@@ -34,6 +34,11 @@
     <p th:text="${str}"></p>
 
 </tr>
+<tr th:each="str : ${list}">
+    <p th:text="${str}">error</p>
+</tr>
+
+<p th:text="${boolean}"></p>
 
 </body>
 </html>
