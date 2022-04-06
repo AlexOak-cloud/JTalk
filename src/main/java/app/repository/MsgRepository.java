@@ -5,6 +5,7 @@ import app.entity.Dialog;
 import app.entity.Message;
 import app.entity.User;
 import app.services.UserService;
+import app.utills.FileUtil;
 import app.utills.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,9 @@ public class MsgRepository {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileUtil fileUtil;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss.SSS");
 //    example -> 2022-04-01T11:52:03.884
@@ -128,6 +132,24 @@ public class MsgRepository {
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptyList();
+        }
+    }
+
+    public File getFile(User sender,User recipient){
+        File file = new File(uploadPath + fileUtil.generateLocalPath(sender));
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        String fileName = sender.getId() + "_" + recipient.getId() + ".txt";
+        File rtnFile = new File(file + fileName );
+        try {
+            if (!rtnFile.exists()) {
+                rtnFile.createNewFile();
+            }
+            return rtnFile;
+        }catch (IOException ex){
+            ex.printStackTrace();
+            return new File("");
         }
     }
 

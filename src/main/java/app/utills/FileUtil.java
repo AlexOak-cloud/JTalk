@@ -38,15 +38,15 @@ public class FileUtil {
         return "/" + authUser.getName() + "/" + authUser.getId() + "/music/";
     }
 
-    public String generatePathForVideo(){
-        User authUser = userService.getAuthUser();
-        return "/" + authUser.getName() + "/" + authUser.getId() + "/video/";
-    }
-
     public String generatePathForMessage(){
         User authUser = userService.getAuthUser();
         return "/" + authUser.getName() + "/" + authUser.getId() + "/msg/";
     }
+
+    public String generatePathForPost(User user){
+        return "/" + user.getName() + "/" + user.getId() + "/post/";
+    }
+
 
     public boolean checkExtensionForImage(MultipartFile file){
         return !getFileExtension(file).equals(".jpeg") | !getFileExtension(file).equals(".jpg");
