@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 
@@ -38,7 +39,7 @@ public class MsgRepository {
     @Autowired
     private FileUtil fileUtil;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss.SSS");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss.SSS");
 //    example -> 2022-04-01T11:52:03.884
 
     public File generateDialogFile(User sender, User recipient, String localMkdir){
@@ -61,6 +62,7 @@ public class MsgRepository {
     }
 
     public boolean saveMessage(Message msg, File file){
+
         String writable = msg.getSender().getId() + "|" +
                 msg.getDateTime() + "~" +
                 msg.isRead() + "*" +
@@ -110,11 +112,9 @@ public class MsgRepository {
 
     public List<Message> extractMsgs(File file){
         List<Message> rtnList = new ArrayList<>();
-        try(BufferedReader reader =
-                    new BufferedReader(
-                            new FileReader(file))){
-          while(reader.ready()) {
-              String line = reader.readLine();
+        try(Scanner scanner = new Scanner(new FileReader(file))){
+            while(scanner.hasNext()){
+                String line = scanner.nextLine();
               String content = line.substring(line.indexOf("*"), line.length());
               String senderStr = line.substring(line.indexOf(0), line.indexOf("|"));
               int senderId = Integer.parseInt(senderStr);
@@ -135,12 +135,12 @@ public class MsgRepository {
         }
     }
 
-    public File getFile(User sender,User recipient){
-        File file = new File(uploadPath + fileUtil.generateLocalPath(sender));
+    public File generateFile(User sender,User recipient){
+        File file = new File(uploadPath + fileUtil.generateLocalMsg(sender));
         if(!file.exists()){
             file.mkdirs();
         }
-        String fileName = sender.getId() + "_" + recipient.getId() + ".txt";
+        String fileName = "/" + sender.getId() + "_" + recipient.getId() + ".txt";
         File rtnFile = new File(file + fileName );
         try {
             if (!rtnFile.exists()) {

@@ -28,6 +28,10 @@ public class FileUtil {
         return "/" + user.getName() + "/" + user.getId() + "/";
     }
 
+    public String generateLocalMsg(User user){
+        return "/" + user.getName() + "/" + user.getId() + "/msg/";
+    }
+
     public String generatePathForImages(){
         User authUser = userService.getAuthUser();
         return "/" + authUser.getName() + "/" + authUser.getId() + "/image/";

@@ -28,7 +28,7 @@ public class PostRepository {
     @Autowired
     private FileUtil fileUtil;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss.SSS");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss.SSS");
 
     public File generatePostFile(String localMkdir){
         File file = new File(uploadPath + "/" + localMkdir);
