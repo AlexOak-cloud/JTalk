@@ -6,20 +6,16 @@
 </head>
 <body>
 
-<h3 th:text="${sender + ' ' + sender.getName + ' ' + sender.getSecondName}">error senderName</h3>
+<h3 th:text="${sender.getName + ' ' + sender.getSecondName}">error senderName</h3>
 </br>
-<h3 th:text="${recipient + ' ' + recipient.getName + ' ' + recipient.getSecondName}">error recipientName</h3>
+<h3 th:text="${recipient.getName + ' ' + recipient.getSecondName}">error recipientName</h3>
 </br>
 <form th:method="post" th:object="${message}" th:action="@{/msg/post/{id}(id=${recipient.getId})}">
     <input type="text" th:field="*{content}" placeholder="message">
     <input type="submit" value="to send">
 </form>
 </br>
-<tr th:each="msg : ${dialog}">
-    <p th:text="${msg}">error</p>
-</br>
-</tr>
-
+<p th:text="${'пустой? - ' + msgs}">error</p>
 <p th:text="${test}">error</p>
 
 </body>

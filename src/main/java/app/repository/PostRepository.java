@@ -68,10 +68,10 @@ public class PostRepository {
         }
     }
 
-    public List<Post> getAll(User user) {
-        File file = new File(uploadPath + fileUtil.generatePathForPost(user));
-        return extractPost(file);
-    }
+//    public List<Post> getAll(User user) {
+//        File file = new File(uploadPath + fileUtil.generatePathForPost(user));
+//        return extractPost(file);
+//    }
 
 
 

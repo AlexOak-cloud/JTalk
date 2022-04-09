@@ -5,6 +5,7 @@ import app.entity.Dialog;
 import app.entity.Message;
 import app.entity.User;
 import app.services.UserService;
+import app.utills.Direction;
 import app.utills.FileUtil;
 import app.utills.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,30 +40,12 @@ public class MsgRepository {
     @Autowired
     private FileUtil fileUtil;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss.SSS");
-//    example -> 2022-04-01T11:52:03.884
+    //    example -> 2022-04-01T11:52:03.884
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss.SSS");
 
-    public File generateDialogFile(User sender, User recipient, String localMkdir){
-        File file = new File(uploadPath + "/" + localMkdir);
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        String savableName = sender.getId() + "_" + recipient.getId() + ".txt";
-        File rtnFile = new File(file + "/" + savableName);
-        try{
-            if(!rtnFile.exists()){
-                rtnFile.createNewFile();
-            }
-            return rtnFile;
-        }catch (IOException ex){
-            ex.printStackTrace();
-            System.out.println("Error -> MsgRepository.generateDialogFile()  method");
-            return new File(file + "/" + savableName);
-        }
-    }
 
-    public boolean saveMessage(Message msg, File file){
 
+    public boolean saveMessage(Message msg, Dialog dialog){
         String writable = msg.getSender().getId() + "|" +
                 msg.getDateTime() + "~" +
                 msg.isRead() + "*" +
@@ -70,7 +53,7 @@ public class MsgRepository {
                 "\n";
         try(BufferedOutputStream bos
                 = new BufferedOutputStream(
-                        new FileOutputStream(file,true))){
+                        new FileOutputStream(dialog.getFile(),true))){
 
             bos.write(writable.getBytes(StandardCharsets.UTF_8));
             bos.flush();
@@ -99,57 +82,40 @@ public class MsgRepository {
 
     public Dialog getDialog(File file){
         Dialog dialog = new Dialog();
-        List<Message> msgs = extractMsgs(file);
+        List<Message> msgs = extractMsgs(dialog);
         List<Integer> usersIdByFileName = getUsersIdByFileName(file);
         User sender = userService.getById(usersIdByFileName.get(0));
         User recipient = userService.getById(usersIdByFileName.get(1));
         dialog.setSender(sender);
         dialog.setRecipient(recipient);
-        dialog.setPath(file.getPath());
+        dialog.setFile(file);
         dialog.setMsgs(msgs);
         return dialog;
     }
 
-    public List<Message> extractMsgs(File file){
+    public List<Message> extractMsgs(Dialog dialog){
         List<Message> rtnList = new ArrayList<>();
-        try(Scanner scanner = new Scanner(new FileReader(file))){
-            while(scanner.hasNext()){
-                String line = scanner.nextLine();
-              String content = line.substring(line.indexOf("*"), line.length());
-              String senderStr = line.substring(line.indexOf(0), line.indexOf("|"));
-              int senderId = Integer.parseInt(senderStr);
-              User sender = userService.getById(senderId);
-              String isReadStr = line.substring(line.indexOf("~"),line.indexOf("*"));
-              boolean isRead = Boolean.parseBoolean(isReadStr);
-              String dateTimeStr = line.substring(line.indexOf("|"),line.indexOf("~"));
-              LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
-              Message msg = new Message(content,sender, dateTime, isRead);
-              if(msg.getContent() != null) {
-                  rtnList.add(msg);
-              }
-          }
-              return rtnList;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-    }
-
-    public File generateFile(User sender,User recipient){
-        File file = new File(uploadPath + fileUtil.generateLocalMsg(sender));
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        String fileName = "/" + sender.getId() + "_" + recipient.getId() + ".txt";
-        File rtnFile = new File(file + fileName );
-        try {
-            if (!rtnFile.exists()) {
-                rtnFile.createNewFile();
+        try(BufferedReader reader = new BufferedReader(new FileReader(dialog.getFile()))){
+            String line = null;
+            while (( line = reader.readLine()) != null){
+                String content = line.substring(line.indexOf("*"), line.length());
+                String senderStr = line.substring(line.indexOf(0), line.indexOf("|"));
+                int senderId = Integer.parseInt(senderStr);
+                User sender = userService.getById(senderId);
+                String isReadStr = line.substring(line.indexOf("~"),line.indexOf("*"));
+                boolean isRead = Boolean.parseBoolean(isReadStr);
+                String dateTimeStr = line.substring(line.indexOf("|"),line.indexOf("~"));
+                LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
+                Message msg = new Message(content,sender, dateTime, isRead);
+                if(msg.getContent() != null){
+                    rtnList.add(msg);
+                }
             }
-            return rtnFile;
+            return rtnList;
         }catch (IOException ex){
+            System.out.println("error MsgRepository.extractMsgs() method");
             ex.printStackTrace();
-            return new File("");
+            return Collections.emptyList();
         }
     }
 

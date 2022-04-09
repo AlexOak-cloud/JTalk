@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+
 public class FileUtil {
 
     @Value("${upload.path}")
@@ -20,37 +23,12 @@ public class FileUtil {
         return new FileUtil();
     }
 
-    public String generateUploadPath(User user){
-        return  path + "/" + user.getName() + "/" + user.getId() + "/";
+    public String generateUploadPath(User user,Direction direction){
+        return  path + "/" + user.getName() + "/" + user.getId() + "/" + direction.toString() + "/";
     }
-
-    public String generateLocalPath(User user){
-        return "/" + user.getName() + "/" + user.getId() + "/";
+    public String generateLocalPath(User user, Direction direction){
+        return  "/" + user.getName() + "/" + user.getId() + "/" + direction.toString() + "/";
     }
-
-    public String generateLocalMsg(User user){
-        return "/" + user.getName() + "/" + user.getId() + "/msg/";
-    }
-
-    public String generatePathForImages(){
-        User authUser = userService.getAuthUser();
-        return "/" + authUser.getName() + "/" + authUser.getId() + "/image/";
-    }
-
-    public String generatePathForMusic(){
-        User authUser = userService.getAuthUser();
-        return "/" + authUser.getName() + "/" + authUser.getId() + "/music/";
-    }
-
-    public String generatePathForMessage(){
-        User authUser = userService.getAuthUser();
-        return "/" + authUser.getName() + "/" + authUser.getId() + "/msg/";
-    }
-
-    public String generatePathForPost(User user){
-        return "/" + user.getName() + "/" + user.getId() + "/post/";
-    }
-
 
     public boolean checkExtensionForImage(MultipartFile file){
         return !getFileExtension(file).equals(".jpeg") | !getFileExtension(file).equals(".jpg");
@@ -59,6 +37,44 @@ public class FileUtil {
     public boolean checkExtensionForMusic(MultipartFile file){
         return !getFileExtension(file).equals(".mp3") ;
     }
+
+    public File generateLocalDialogFile(User sender, User recipient){
+        File file = new File(generateLocalPath(sender ,Direction.MSG));
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        String savableName = sender.getId() + "_" + recipient.getId() + ".txt";
+        File rtnFile = new File(file + "/" + savableName);
+        try{
+            if(!rtnFile.exists()){
+                rtnFile.createNewFile();
+            }
+            return rtnFile;
+        }catch (IOException ex){
+            ex.printStackTrace();
+            System.out.println("Error -> MsgRepository.generateDialogFile()  method");
+            return new File(file + "/" + savableName);
+        }
+    }
+    public File generateUploadDialogFile(User sender, User recipient){
+        File file = new File(path + "/" + generateLocalPath(sender ,Direction.MSG));
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        String savableName = sender.getId() + "_" + recipient.getId() + ".txt";
+        File rtnFile = new File(file + "/" + savableName);
+        try{
+            if(!rtnFile.exists()){
+                rtnFile.createNewFile();
+            }
+            return rtnFile;
+        }catch (IOException ex){
+            ex.printStackTrace();
+            System.out.println("Error -> MsgRepository.generateDialogFile()  method");
+            return new File(file + "/" + savableName);
+        }
+    }
+
 
 
     public boolean checkExtensionForVideo(MultipartFile file){

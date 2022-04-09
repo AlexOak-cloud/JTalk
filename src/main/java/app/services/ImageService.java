@@ -2,6 +2,7 @@ package app.services;
 
 import app.entity.User;
 import app.repository.RepositoryMediaCore;
+import app.utills.Direction;
 import app.utills.FileUtil;
 import app.utills.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @Service
 public class ImageService extends RepositoryMediaCore {
+
+
 
     @Autowired
     private FileUtil fileUtil;
@@ -28,7 +31,7 @@ public class ImageService extends RepositoryMediaCore {
 
 
     public void save(MultipartFile file) {
-        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser()) + "image/";
+        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser(), Direction.IMAGE);
         if(!file.isEmpty()) {
             super.save(localMkdir,file, SQLQuery.saveImage);
         } else {
@@ -37,8 +40,7 @@ public class ImageService extends RepositoryMediaCore {
     }
 
     public void saveMain(MultipartFile file){
-
-        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser()) + "main_image/";
+        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser(),Direction.IMAGE) ;
         if(!file.isEmpty()){
             super.save(localMkdir, file, SQLQuery.saveImage);
         } else {
@@ -47,7 +49,7 @@ public class ImageService extends RepositoryMediaCore {
     }
 
     public String getMainByUser(User user){
-        String localMkdir = fileUtil.generateLocalPath(user) + "main_image/";
+        String localMkdir = fileUtil.generateLocalPath(user, Direction.MAIN_IMAGE) ;
         if(super.getAllByUser(localMkdir).isEmpty()) {
             return emergingImg;
         } else {
@@ -57,7 +59,7 @@ public class ImageService extends RepositoryMediaCore {
 
 
     public List<String> getAllByUser(User user) {
-        String localMkdir = fileUtil.generateLocalPath(user) + "image/";
+        String localMkdir = fileUtil.generateLocalPath(user,Direction.IMAGE);
         return super.getAllByUser(localMkdir);
     }
 

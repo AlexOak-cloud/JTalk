@@ -3,6 +3,7 @@ package app.services;
 
 import app.entity.User;
 import app.repository.RepositoryMediaCore;
+import app.utills.Direction;
 import app.utills.FileUtil;
 import app.utills.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class MusicService extends RepositoryMediaCore {
     }
 
     public void save(MultipartFile file) {
-        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser()) + "music/";
+        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser(), Direction.MUSIC);
         if(!file.isEmpty()){
             super.save(localMkdir, file, SQLQuery.saveMusic);
         } else {
@@ -36,7 +37,7 @@ public class MusicService extends RepositoryMediaCore {
 
 
     public List<String> getAllByUser(User user) {
-        String localMkdir =  fileUtil.generateLocalPath(user) + "music/" ;
+        String localMkdir =  fileUtil.generateLocalPath(user,Direction.MUSIC) ;
         return super.getAllByUser(localMkdir);
     }
 }
