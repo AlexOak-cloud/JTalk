@@ -40,12 +40,6 @@ public class UserController {
         mav.addObject("avatar",imageService.getMainByUser(authUser));
         mav.addObject("images",imageService.getAllByUser(authUser));
         mav.addObject("songs",musicService.getAllByUser(authUser));
-        File dialogFile = fileUtil.generateUploadDialogFile(userService.getAuthUser(),userService.getById(3));
-        mav.addObject("qwe",dialogFile.getPath());
-        File file = new File(
-                "/home/alex_oak/IT/IdeaProjects/source/users/Sasha/2/msg/2_3.txt"
-        );
-        mav.addObject("boolean",file.isFile());
         return mav;
     }
 }

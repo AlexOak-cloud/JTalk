@@ -19,6 +19,9 @@ public class MsgService extends MsgRepository {
     }
 
     public boolean saveMessage(Message msg, File file) {
+        if(msg.getContent() == null){
+            return false;
+        }
         Dialog dialog = new Dialog();
         dialog.setFile(file);
         return super.saveMessage(msg, dialog);

@@ -18,7 +18,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public ModelAndView regisGet(@ModelAttribute("user")User user){
-        ModelAndView mav = new ModelAndView("/view/registration.html");
+        ModelAndView mav = new ModelAndView("/view/registration/registration.html");
         mav.addObject("user",new User());
         return mav; 
     }

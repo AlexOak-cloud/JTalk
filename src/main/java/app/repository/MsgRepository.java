@@ -19,12 +19,11 @@ import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
 
@@ -39,11 +38,6 @@ public class MsgRepository {
 
     @Autowired
     private FileUtil fileUtil;
-
-    //    example -> 2022-04-01T11:52:03.884
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss.SSS");
-
-
 
     public boolean saveMessage(Message msg, Dialog dialog){
         String writable = msg.getSender().getId() + "|" +
@@ -82,37 +76,37 @@ public class MsgRepository {
 
     public Dialog getDialog(File file){
         Dialog dialog = new Dialog();
+        dialog.setFile(file);
         List<Message> msgs = extractMsgs(dialog);
         List<Integer> usersIdByFileName = getUsersIdByFileName(file);
         User sender = userService.getById(usersIdByFileName.get(0));
         User recipient = userService.getById(usersIdByFileName.get(1));
         dialog.setSender(sender);
         dialog.setRecipient(recipient);
-        dialog.setFile(file);
         dialog.setMsgs(msgs);
         return dialog;
     }
 
-    public List<Message> extractMsgs(Dialog dialog){
+    public List<Message> extractMsgs(Dialog dialog) {
         List<Message> rtnList = new ArrayList<>();
-        try(BufferedReader reader = new BufferedReader(new FileReader(dialog.getFile()))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(dialog.getFile()))) {
             String line = null;
-            while (( line = reader.readLine()) != null){
-                String content = line.substring(line.indexOf("*"), line.length());
-                String senderStr = line.substring(line.indexOf(0), line.indexOf("|"));
+            while ((line = reader.readLine()) != null) {
+                String content = line.substring(line.indexOf("*") + 1, line.length());
+                String senderStr = line.substring(0, line.indexOf("|"));
                 int senderId = Integer.parseInt(senderStr);
                 User sender = userService.getById(senderId);
-                String isReadStr = line.substring(line.indexOf("~"),line.indexOf("*"));
+                String isReadStr = line.substring(line.indexOf("~") + 1, line.indexOf("*"));
                 boolean isRead = Boolean.parseBoolean(isReadStr);
-                String dateTimeStr = line.substring(line.indexOf("|"),line.indexOf("~"));
-                LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
-                Message msg = new Message(content,sender, dateTime, isRead);
-                if(msg.getContent() != null){
+                String dateTimeStr = line.substring(line.indexOf("|") + 1, line.indexOf("~"));
+                LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr);
+                Message msg = new Message(content, sender, dateTime, isRead);
+                if (msg.getContent() != null) {
                     rtnList.add(msg);
                 }
             }
             return rtnList;
-        }catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("error MsgRepository.extractMsgs() method");
             ex.printStackTrace();
             return Collections.emptyList();

@@ -40,13 +40,12 @@ public class MessageController {
                                @ModelAttribute("message")Message message){
         User sender = userService.getAuthUser();
         User recipient = userService.getById(id);
-        File dialogFile = fileUtil.generateLocalDialogFile(sender, recipient);
+        File dialogFile = fileUtil.generateUploadDialogFile(sender, recipient);
         Dialog dialog = msgService.getDialog(dialogFile);
         ModelAndView mav = new ModelAndView("/view/msg/msg.html");
-        mav.addObject("msgs",dialog.getMsgs().isEmpty());
+        mav.addObject("sender",sender);
         mav.addObject("recipient", recipient);
-        mav.addObject("test", dialog.getFile().isFile());
-        mav.addObject("sender", sender);
+        mav.addObject("dialog",dialog.getMsgs());
         mav.addObject("message",new Message());
         return mav;
     }
@@ -61,8 +60,8 @@ public class MessageController {
         message.setSender(userService.getAuthUser());
         message.setDateTime(LocalDateTime.now());
         message.setRead(false);
-        msgService.saveMessage(message,senderFile);
-        msgService.saveMessage(message,recipientFile);
+        msgService.saveMessage(message, senderFile);
+        msgService.saveMessage(message, recipientFile);
         return new ModelAndView("redirect:/msg/get/" + id);
     }
 

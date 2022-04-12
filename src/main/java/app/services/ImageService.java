@@ -40,7 +40,7 @@ public class ImageService extends RepositoryMediaCore {
     }
 
     public void saveMain(MultipartFile file){
-        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser(),Direction.IMAGE) ;
+        String localMkdir = fileUtil.generateLocalPath(userService.getAuthUser(),Direction.MAIN_IMAGE) ;
         if(!file.isEmpty()){
             super.save(localMkdir, file, SQLQuery.saveImage);
         } else {

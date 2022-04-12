@@ -60,7 +60,6 @@ public class RepositoryMediaCore implements SQLQuery {
                 byte[] bytes = file.getBytes();
                 bos.write(bytes);
                 bos.flush();
-
             } catch (SQLException | IOException ex) {
                 System.out.println("-> Error in RepositoryCore.save()");
                 ex.printStackTrace();

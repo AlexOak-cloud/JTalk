@@ -1,16 +1,15 @@
 package app.controllers;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class LoginController {
+public class RootController {
 
     @GetMapping("/")
-    public ModelAndView loginGet(){
-        return new ModelAndView("/view/login.html");
+    public ModelAndView root(){
+        return new ModelAndView("/view/root/root.html");
     }
 
 

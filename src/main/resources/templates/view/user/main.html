@@ -12,14 +12,15 @@
 <body>
 <h2 id="JTalk">JTalk</h2>
 <h3 th:text="${user.getName} + ' ' +  ${user.getSecondName}">error{getName getSecondName}</h3>
-<img th:src="${avatar}" alt="error_file_path">
+<img th:src="${avatar}" alt="error_file_path" height="400" width="400">
 </br>
 <tr th:each="img : ${images}">
-    <img th:src="${img}" width="50" height="50">
+    <img th:src="${img}" width="75" height="75">
 </tr>
 </br>
 <a th:href="@{/image/upload_main}">Загрузить новый аватар</a>
 </br>
+<a th:href="@{/image/new}">Загрузить новое фото</a>
 <tr th:each="song : ${songs}">
     <audio th:src="${song}" controls> </audio>
     </br>
@@ -41,6 +42,8 @@
 <p th:text="${boolean}"></p>
 
 <p th:text="${qwe}"></p>
+
+<a th:href="@{/msg/get/3}">GO</a>
 
 </body>
 </html>
