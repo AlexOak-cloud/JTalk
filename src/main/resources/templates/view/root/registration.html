@@ -7,6 +7,7 @@
 <body>
 <form th:method="POST" th:object="${user}" th:action="@{/registration}">
     <input type="text" th:field="*{username}" id="username" placeholder="username">
+    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
     </br>
     <input type="password" th:field="*{password}" id="password" placeholder="password">
     </br>

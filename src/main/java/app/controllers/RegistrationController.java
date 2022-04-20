@@ -5,10 +5,13 @@ import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
@@ -18,7 +21,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public ModelAndView regisGet(@ModelAttribute("user")User user){
-        ModelAndView mav = new ModelAndView("/view/registration/registration.html");
+        ModelAndView mav = new ModelAndView("/view/root/registration.html");
         mav.addObject("user",new User());
         return mav; 
     }
@@ -26,6 +29,6 @@ public class RegistrationController {
     @PostMapping("/registration")
     public ModelAndView regisPost(User user){
         userService.saveUser(user);
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("redirect:/");
     }
 }
